@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .item {
+      width: 100px;
+      height: 100px;
+      background-color: #97ffc3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .active {
+      background-color: #47ba77;
+    }
+  </style>
+</style>
+</head>
+<body id="body">
+  <script>
+    window.onload = function() {
+      const body = document.getElementById('body');
+      const divs = [];
+  
+      for (let i = 0; i < 100; i++) {
+        const div = document.createElement('div');
+  
+        div.className = 'item';
+        div.textContent = `Item ${(i + 1)}`;
+        div.id = i;
+        div.onclick = function() {
+          moveItem(this.id);
+        };
+        divs.push(div)
+        body.append(div);
+      }
+  
+      function moveItem(id) {
+        const selectedItem = document.getElementById(id);
+        const firstDiv = body.firstChild;
+
+  
+        if (!selectedItem.classList.contains('active')) {
+          body.insertBefore(selectedItem, firstDiv);
+          selectedItem.classList.add('active');
+
+          return;
+        }  
+          
+        const nextId = parseInt(id) + 1;
+        const nextDiv = document.getElementById(nextId);
+
+        if (nextDiv.classList.contains('active')) {
+
+          for (let i = nextId; i < 100; i++) {
+            const element = document.getElementById(String(i));
+
+            if (!element.classList.contains('active')) {
+              selectedItem.classList.remove('active'); 
+              body.insertBefore(selectedItem, element);
+              return;
+            }
+          }
+        }
+
+        body.insertBefore(selectedItem, nextDiv);
+        selectedItem.classList.remove('active');
+      }
+    };
+  </script>
+</body>
+</html>
